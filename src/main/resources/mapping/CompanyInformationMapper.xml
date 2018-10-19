@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbg.BACKSTAGE.mapper.CompanyInformationMapper">
+  <resultMap id="BaseResultMap" type="com.bbg.BACKSTAGE.model.CompanyInformation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="linkman" jdbcType="VARCHAR" property="linkman" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="linkdate" jdbcType="DATE" property="linkdate" />
+    <result column="isWechat" jdbcType="CHAR" property="iswechat" />
+    <result column="isCircle" jdbcType="CHAR" property="iscircle" />
+    <result column="isAttention" jdbcType="CHAR" property="isattention" />
+    <result column="isJoin" jdbcType="CHAR" property="isjoin" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="chargeman" jdbcType="VARCHAR" property="chargeman" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, province, company, position, linkman, phone, type, location, linkdate, isWechat, 
+    isCircle, isAttention, isJoin, comment, chargeman
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from company_information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!-- 获取记录总数 -->
+  <select id="getCompanyTotal" resultType="int">
+    SELECT count(1) FROM company_information WHERE 1 = 1
+  </select>
+
+  <!-- 分页查询所有信息记录 -->
+  <select id="getCompanyListPage" resultType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    select
+    <include refid="Base_Column_List" />
+    from company_information
+    LIMIT #{offset},#{limit}
+  </select>
+
+  <!-- 分页查询所有信息记录带排序 -->
+  <select id="getCompanyPageSort" resultType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    select
+    <include refid="Base_Column_List" />
+    from company_information
+    order by ${sort} ${sortOrder}
+    LIMIT ${offset},${limit}
+  </select>
+
+  <!-- 分页搜索 -->
+  <select id="searchBySingleColumn" resultType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    select
+    <include refid="Base_Column_List" />
+    from company_information
+    WHERE ${searchTarget} LIKE CONCAT('%',#{searchContent},'%')
+    LIMIT ${offset},${limit}
+  </select>
+
+  <!-- 分页搜索带排序 -->
+  <select id="searchBySingleColumnSort" resultType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    select
+    <include refid="Base_Column_List" />
+    from company_information
+    WHERE ${searchTarget} LIKE CONCAT('%',#{searchContent},'%')
+    order by ${sort} ${sortOrder}
+    LIMIT ${offset},${limit}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from company_information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    insert into company_information (id, province, company, 
+      position, linkman, phone, 
+      type, location, linkdate, 
+      isWechat, isCircle, isAttention, 
+      isJoin, comment, chargeman
+      )
+    values (#{id,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{type,jdbcType=CHAR}, #{location,jdbcType=VARCHAR}, #{linkdate,jdbcType=DATE}, 
+      #{iswechat,jdbcType=CHAR}, #{iscircle,jdbcType=CHAR}, #{isattention,jdbcType=CHAR}, 
+      #{isjoin,jdbcType=CHAR}, #{comment,jdbcType=VARCHAR}, #{chargeman,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    insert into company_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="linkman != null">
+        linkman,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="linkdate != null">
+        linkdate,
+      </if>
+      <if test="iswechat != null">
+        isWechat,
+      </if>
+      <if test="iscircle != null">
+        isCircle,
+      </if>
+      <if test="isattention != null">
+        isAttention,
+      </if>
+      <if test="isjoin != null">
+        isJoin,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="chargeman != null">
+        chargeman,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="linkdate != null">
+        #{linkdate,jdbcType=DATE},
+      </if>
+      <if test="iswechat != null">
+        #{iswechat,jdbcType=CHAR},
+      </if>
+      <if test="iscircle != null">
+        #{iscircle,jdbcType=CHAR},
+      </if>
+      <if test="isattention != null">
+        #{isattention,jdbcType=CHAR},
+      </if>
+      <if test="isjoin != null">
+        #{isjoin,jdbcType=CHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeman != null">
+        #{chargeman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    update company_information
+    <set>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        linkman = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="linkdate != null">
+        linkdate = #{linkdate,jdbcType=DATE},
+      </if>
+      <if test="iswechat != null">
+        isWechat = #{iswechat,jdbcType=CHAR},
+      </if>
+      <if test="iscircle != null">
+        isCircle = #{iscircle,jdbcType=CHAR},
+      </if>
+      <if test="isattention != null">
+        isAttention = #{isattention,jdbcType=CHAR},
+      </if>
+      <if test="isjoin != null">
+        isJoin = #{isjoin,jdbcType=CHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeman != null">
+        chargeman = #{chargeman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbg.BACKSTAGE.model.CompanyInformation">
+    update company_information
+    set province = #{province,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      linkman = #{linkman,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      location = #{location,jdbcType=VARCHAR},
+      linkdate = #{linkdate,jdbcType=DATE},
+      isWechat = #{iswechat,jdbcType=CHAR},
+      isCircle = #{iscircle,jdbcType=CHAR},
+      isAttention = #{isattention,jdbcType=CHAR},
+      isJoin = #{isjoin,jdbcType=CHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      chargeman = #{chargeman,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

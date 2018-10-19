@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-clearmin.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/roboto.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/material-design.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/small-n-flat.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <!--table依赖-->
+    <link rel="stylesheet" type="text/css" href="bootstrap-table/bootstrap-table.css">
+    <!--datetime依赖-->
+    <link rel="stylesheet" type="text/css" href="bootstrap-datetimepicker/bootstrap-datetimepicker.css">
+
+
+    <title>兵果果业务系统</title>
+
+</head>
+<body class="cm-no-transition cm-1-navbar">
+<div id="cm-menu">
+    <nav class="cm-navbar cm-navbar-primary">
+        <div class="cm-flex">
+            <div class="cm-logo"></div>
+        </div>
+        <div class="btn btn-primary md-menu-white" data-toggle="cm-menu"></div>
+    </nav>
+    <div id="cm-menu-content">
+        <div id="cm-menu-items-wrapper">
+            <div id="cm-menu-scroller">
+                <ul class="cm-menu-items">
+                    <li class="active"><a href="/go2index" class="sf-house">首页</a></li>
+                    <li><a href="/go2userinformation" class="sf-dashboard">用户信息管理</a></li>
+                    <li><a href="/go2companyinformation" class="sf-notepad">招聘企业信息管理</a></li>
+                    <li><a href="/go2civilaffairsbureau" class="sf-cat">民政局信息管理</a></li>
+                    <li><a href="/go2compactinformation" class="sf-lock-open">合同台账信息管理</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<header id="cm-header">
+    <nav class="cm-navbar cm-navbar-primary">
+        <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
+        <div class="cm-flex">
+            <h1>用户信息管理</h1>
+            <form id="cm-search" action="http://www.baidu.com/baidu" method="get" target="_blank">
+                <input name=tn type=hidden value=baidu>
+                <input type="search" name="word" autocomplete="off" placeholder="百度搜索">
+            </form>
+        </div>
+        <div class="pull-right">
+            <div id="cm-search-btn" class="btn btn-primary md-search-white" data-toggle="cm-search"></div>
+        </div>
+        <div class="dropdown pull-right">
+            <button class="btn btn-primary md-notifications-white" data-toggle="dropdown"><span
+                    class="label label-danger">23</span></button>
+            <div class="popover cm-popover bottom">
+                <div class="arrow"></div>
+                <div class="popover-content">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading text-overflow">
+                                <i class="fa fa-fw fa-envelope"></i> Nunc volutpat aliquet magna.
+                            </h4>
+                            <p class="list-group-item-text text-overflow">Pellentesque tincidunt mollis scelerisque.
+                                Praesent vel blandit quam.</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                <i class="fa fa-fw fa-envelope"></i> Aliquam orci lectus
+                            </h4>
+                            <p class="list-group-item-text">Donec quis arcu non risus sagittis</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                <i class="fa fa-fw fa-warning"></i> Holy guacamole !
+                            </h4>
+                            <p class="list-group-item-text">Best check yo self, you're not looking too good.</p>
+                        </a>
+                    </div>
+                    <div style="padding:10px"><a class="btn btn-success btn-block" href="#">Show me more...</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown pull-right">
+            <button class="btn btn-primary md-account-circle-white" data-toggle="dropdown"></button>
+            <ul class="dropdown-menu">
+                <li class="disabled text-center">
+                    <a style="cursor:default;" id="a-realname"><strong>yangkunlin</strong></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#" id="userinformation"><i class="fa fa-fw fa-user"></i>个人信息</a>
+                </li>
+                <li>
+                    <a href="#" id="changepassword"><i class="fa fa-fw fa-cog"></i>修改密码</a>
+                </li>
+                <li>
+                    <a href="/logout" id="logout"><i class="fa fa-fw fa-sign-out"></i>退出登陆</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div id="global">
+    <div class="container-fluid">
+        <div class="panel-body" style="padding-bottom:0px;">
+            <div id="toolbar" class="btn-group">
+                <button id="btn_add" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                </button>
+                <button id="btn_edit" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                </button>
+                <button id="btn_delete" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                </button>
+            </div>
+            <table class="table table-hover" id="table"
+                   data-pagination="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-showColumns="true">
+                <thead>
+                <tr>
+                    <th data-field="id" data-sortable="true">
+                        员工编号
+                    </th>
+                    <th data-field="username">
+                        用户名
+                    </th>
+                    <th data-field="realname">
+                        姓名
+                    </th>
+                    <th data-field="sex">
+                        性别
+                    </th>
+                    <th data-field="brithday">
+                        出生年月
+                    </th>
+                    <th data-field="joinday">
+                        入职时间
+                    </th>
+                    <th data-field="department">
+                        所属部门
+                    </th>
+                    <th data-field="position">
+                        职位
+                    </th>
+                    <th data-field="workstage">
+                        工作状态
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="cm-footer"><span class="pull-right">&copy; 郑州缤缤果信息科技有限公司</span></footer>
+</div>
+
+<!--详情按钮的弹出框 -->
+<div class="modal fade" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">增加员工</h4>
+            </div>
+            <form class="form-horizontal" action="/adduser" method="post" th:object="${userInformation}"> <!--等价于div.container-->
+                <div class="modal-body">
+
+                    <div class="form-group"><!--div.row-->
+                        <div class="col-sm-2"><label for="username" class="control-label">用户名</label></div>
+                        <div class="col-sm-5"><input type="text" class="form-control" id="username" name="username"></div>
+                        <div class="col-sm-4"><span class="help-block">默认姓名的拼音</span></div>
+                    </div>
+                    <div class="form-group"><!--div.row-->
+                        <div class="col-sm-2"><label for="am-password" class="control-label">密码</label></div>
+                        <div class="col-sm-5"><input type="text" class="form-control" id="am-password" name="password"></div>
+                        <div class="col-sm-4"><span class="help-block">默认与用户名一致</span></div>
+                    </div>
+                    <div class="form-group"><!--div.row-->
+                        <div class="col-sm-2"><label for="realname" class="control-label">姓名</label></div>
+                        <div class="col-sm-5"><input type="text" class="form-control" id="realname" name="realname"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"><label for="sex" class="control-label">性别</label></div>
+                        <div class="col-sm-5">
+                            <select class="form-control" id="sex" name="sex">
+                                <option>男</option>
+                                <option>女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"><label for="brithday" class="control-label">出生年月</label></div>
+                        <div class="col-sm-5"><input type="date" class="form-control" id="brithday" name="brithday"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"><label for="joinday" class="control-label">入职时间</label></div>
+                        <div class="col-sm-5"><input type="date" class="form-control" id="joinday" name="joinday"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"><label for="department" class="control-label">所属部门</label></div>
+                        <div class="col-sm-5"><select class="form-control" id="department" name="department">
+                            <option>行政部</option>
+                            <option>市场部</option>
+                            <option>运营部</option>
+                            <option>品牌部</option>
+                            <option>技术部</option>
+                        </select></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"><label for="position" class="control-label">职位</label></div>
+                        <div class="col-sm-5">
+                            <select class="form-control" id="position" name="position">
+                                <option>部门经理</option>
+                                <option>组长</option>
+                                <option>普通</option>
+                                <option>实习</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"><label for="workstage" class="control-label">工作状态</label></div>
+                        <div class="col-sm-5">
+                            <select class="form-control" id="workstage" name="workstage">
+                                <option>在位</option>
+                                <option>休假</option>
+                                <option>离职</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal" id="modalSubmit">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 用户信息的模态对话框 -->
+<div id="editUserInformationModal" class="modal fade" role="dialog" aria-hidden=true>
+    <div class="modal-dialog modal-lg">
+        <form id='editUserForm' class="bs-example bs-example-form" role="form" action="/edituser"
+              method="post" th:object="${userInformation}">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">
+                        <i class="icon-pencil"></i>
+                        <span id="eum-title" style="font-weight:bold">个人信息</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="text-align:center;">
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">1-动态编号</i></span>
+                        <input type="text" class=" form-control" name="id"
+                               id="eum-id" placeholder="动态编号" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-th"></i>2-登陆账号</span>
+                        <input type="text" class="form-control" placeholder="用户名" name="username"
+                               id="eum-username" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-th"></i>3-真实姓名</span>
+                        <input type="text" class="form-control" placeholder="姓名" name="realname"
+                               id="eum-realname" readonly>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">4-联系方式</i></span>
+                        <input type="text" class=" form-control" name="phonenumber"
+                               id="eum-phonenumber" placeholder="联系方式">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">5-出生年月</i></span>
+                        <input type="date" class=" form-control" name="brithday"
+                               id="eum-brithday" placeholder="出生年月" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">6-性别分类</i></span>
+                        <input type="text" class=" form-control" name="sex" id="eum-sex"
+                               placeholder="性别" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">7-入职时间</i></span>
+                        <input type="date" class=" form-control" name="joinday" id="eum-joinday"
+                               placeholder="入职时间" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">8-所属部门</i></span>
+                        <input type="text" class=" form-control" name="department" id="eum-department"
+                               placeholder="部门" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">9-职位安排</i></span>
+                        <input type="text" class=" form-control" name="position" id="eum-position"
+                               placeholder="职位" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon text-center"><i class="icon-th">10工作状态</i></span>
+                        <select class="form-control" id="eum-workstage" name="workstage">
+                            <option>在位</option>
+                            <option>休假</option>
+                            <option>离职</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-info">
+                    <input type="hidden" id="EUMID" name="EMID"/>
+                    <input type="hidden" id="eum-password" name="password"/>
+                    <input type="hidden" id="eum-authority" name="authority"/>
+                    <button type="submit" class="btn btn-primary" id="editModalSubmit">确定</button>
+                    <button type="button" class="btn green" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 修改密码的模态对话框 -->
+<div id="changePasswordModal" class="modal fade" role="dialog" aria-hidden=true>
+    <div class="modal-dialog modal-lg">
+        <form id='changePasswordForm' class="bs-example bs-example-form" role="form" action="#"
+              method="post" th:object="${userInformation}">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">
+                        <i class="icon-pencil"></i>
+                        <span id="cpm-title" style="font-weight:bold">修改密码</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="text-align:center;">
+                    <div class="form-group"><!--div.row-->
+                        <div class="col-sm-2"><label for="password" class="control-label">请输入新密码：</label></div>
+                        <div class="col-sm-5"><input type="password" class="form-control" id="password"
+                                                     name="password"></div>
+                        <div class="col-sm-4"><span class="help-block">请输入新密码</span></div>
+                    </div>
+                    <div class="form-group"><!--div.row-->
+                        <div class="col-sm-2"><label for="repassword" class="control-label">请确认新密码：</label></div>
+                        <div class="col-sm-5"><input type="password" class="form-control" id="repassword"
+                                                     name="repassword"></div>
+                        <div class="col-sm-4"><span class="help-block">请再次输入新密码和上面保持一致</span></div>
+                    </div>
+                    <div class="form-group"><!--div.row-->
+                        <div class="col-sm-4"><span class="help-block" id="tishi"></span></div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-info">
+                    <button type="button" class="btn btn-primary" id="changePasswordModalSubmit">确定</button>
+                    <button type="button" class="btn green" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--clearmin-->
+<script src="assets/js/lib/jquery-2.1.3.min.js"></script>
+<script src="assets/js/jquery.mousewheel.min.js"></script>
+<script src="assets/js/jquery.cookie.min.js"></script>
+<script src="assets/js/fastclick.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/clearmin.min.js"></script>
+
+<script src="bootstrap-table/bootstrap-table.js"></script>
+<script src="bootstrap-table/bootstrap-table-zh-CN.js"></script>
+
+<script src="bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+<script src="bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script>
+$(function () {
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+
+        $.ajax({
+              type: "POST",
+              async : false,
+              url: "/getuserinformation",
+              data:  {},
+              datatype:"json",
+              success: function (data) {
+                 var dataObj=eval("("+data+")");
+                 if(dataObj['userLogin']) {
+                    var x=document.getElementById("a-realname");
+                    x.innerHTML=dataObj['realname'] + "--" + dataObj['position'];
+                    $('#eum-id').val(dataObj['id']);
+                    $('#eum-username').val(dataObj['username']);
+                    $('#eum-realname').val(dataObj['realname']);
+                    $('#eum-department').val(dataObj['department']);
+                    $('#eum-position').val(dataObj['position']);
+                    $('#eum-joinday').val(dataObj['joinday']);
+                    $('#eum-workstage').val(dataObj['workstage']);
+                    $('#eum-phonenumber').val(dataObj['phonenumber']);
+                    $('#eum-sex').val(dataObj['sex']);
+                    $('#eum-brithday').val(dataObj['brithday']);
+                    $('#eum-password').val(dataObj['password']);
+                    $('#eum-authority').val(dataObj['authority']);
+                 }
+                 else {
+                    alert("请重新登陆！");
+                 }
+              }
+        });
+    })
+
+<!--function IsLogin()-->
+<!--{-->
+  <!--var a='<%=session.getAttribute("userLogin")%>';-->
+  <!--if(a==null||a==''||!a)-->
+  <!--{-->
+  <!--alert("您还未登陆，请先登录！");-->
+  <!--window.location.href="/";-->
+  <!--return false;-->
+  <!--}else{-->
+   <!--alert("登录成功！");-->
+   <!--return false;-->
+  <!--}-->
+<!--}-->
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#table').bootstrapTable({
+                url: '/getalluserinformation',            //请求后台的URL（*）
+                method: 'post',            //请求方式（*）
+                contentType: "application/x-www-form-urlencoded",//当请求方法为post的时候,必须要有！！！！
+                toolbar: '#toolbar',        //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: true,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [5, 25, 50, 100],        //可供选择的每页的行数（*）
+                search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 700,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                  //是否显示父子表
+                onLoadSuccess: function () {
+                },
+                onLoadError: function () {
+                    showTips("数据加载失败！");
+                },
+                onDblClickRow: function (row, $element) {
+                    var id = row.ID;
+                    EditViewById(id, 'view');
+                },
+            });
+        };
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit : params.limit, // 每页显示数量
+                offset : params.offset, // SQL语句起始索引
+                page: (params.offset / params.limit) + 1,   //当前页码
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+
+        return oInit;
+    };
+
+    $('#table').on('click-row.bs.table', function (e, row, $element) {
+        $('.success').removeClass('success');
+        $($element).addClass('success');
+    });
+
+    var $table = $('#table'),   //可写可不写
+        $button = $('#btn');
+
+    $button.click(function () {      //因为这个，你可以编辑表格了！
+        var result = $table.bootstrapTable('getSelections');
+        alert('getSelections: ' + JSON.stringify($table.bootstrapTable('getSelections')));
+        var ids = [];
+        for (var i = 0; i < result.length; i++) {
+
+            var item = result[i];
+            //ids.push(item.授课老师);
+        }
+        alert(ids);
+    })
+
+    $('#modalSubmit').click(function(){
+        alert('提交成功！');
+        $('form').submit();
+    });
+
+    $('#btn_add').click(function(){
+        $.ajax({
+                   type: "POST",
+                   async : false,
+                   url: "/adduserauthority",
+                   data:  {},
+                   datatype:"json",
+                   success: function (data) {
+                      var dataObj=eval("("+data+")");
+                      if(dataObj['addUserAuthority']) {
+                        $('#addModal').modal('show');
+                      }
+                      else {
+                         alert("您没有该操作权限！");
+                      }
+                   }
+
+            });
+    });
+
+
+    $('#userinformation').click(function(){
+        $('#editUserInformationModal').modal('show');
+    })
+
+    $('#changepassword').click(function(){
+        $('#changePasswordModal').modal('show');
+    })
+
+   $('#changePasswordModalSubmit').click(function() {
+      var pwd1 = document.getElementById("password").value;
+      var pwd2 = document.getElementById("repassword").value;
+      if(pwd1 == pwd2 &&  pwd1 != "") {
+            $.ajax({
+              type: "POST",
+              async : false,
+              url: "/changepassword",
+              data:  {"password" : pwd1},
+              datatype:"json",
+              success: function (data) {
+                 var dataObj=eval("("+data+")");
+                 if(dataObj['changepassword']) {
+                    document.getElementById("tishi").innerHTML="<font color='green'>修改成功，请点击右侧关闭按钮--></font>";
+                 }
+                 else {
+                    document.getElementById("tishi").innerHTML="<font color='red'>修改失败，请重新修改！</font>";
+                 }
+              }
+            });
+      }
+      else {
+        document.getElementById("tishi").innerHTML="<font color='red'>两次密码不相同,请重新输入！</font>";
+      }
+  })
+</script>
+</body>
+</html>

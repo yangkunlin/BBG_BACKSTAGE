@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbg.BACKSTAGE.mapper.CivilAffairsBureauInformationMapper">
+  <resultMap id="BaseResultMap" type="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="officephone" jdbcType="VARCHAR" property="officephone" />
+    <result column="veteranphone" jdbcType="VARCHAR" property="veteranphone" />
+    <result column="linkman" jdbcType="VARCHAR" property="linkman" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="situation" jdbcType="VARCHAR" property="situation" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, province, city, region, officephone, veteranphone, linkman, telephone, position, 
+    situation
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from civil_affairs_bureau_information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!-- 获取记录总数 -->
+  <select id="getTotal" resultType="int">
+    SELECT count(1) FROM civil_affairs_bureau_information WHERE 1 = 1
+  </select>
+
+  <!-- 分页查询所有信息记录带排序 -->
+  <select id="getCivilAffairsBureauListPage" resultType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    select
+    <include refid="Base_Column_List" />
+    from civil_affairs_bureau_information
+    LIMIT #{offset},#{limit}
+  </select>
+
+  <!-- 分页查询所有信息记录带排序 -->
+  <select id="getCivilAffairsBureauListPageSort" resultType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    select
+    <include refid="Base_Column_List" />
+    from civil_affairs_bureau_information
+    order by ${sort} ${sortOrder}
+    LIMIT ${offset},${limit}
+  </select>
+
+  <!-- 分页搜索 -->
+  <select id="searchBySingleColumn" resultType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    select
+    <include refid="Base_Column_List" />
+    from civil_affairs_bureau_information
+    WHERE ${searchTarget} LIKE CONCAT('%',#{searchContent},'%')
+    LIMIT ${offset},${limit}
+  </select>
+
+  <!-- 分页搜索带排序 -->
+  <select id="searchBySingleColumnSort" resultType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    select
+    <include refid="Base_Column_List" />
+    from civil_affairs_bureau_information
+    WHERE ${searchTarget} LIKE CONCAT('%',#{searchContent},'%')
+    order by ${sort} ${sortOrder}
+    LIMIT ${offset},${limit}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from civil_affairs_bureau_information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    insert into civil_affairs_bureau_information (id, province, city, 
+      region, officephone, veteranphone, 
+      linkman, telephone, position, 
+      situation)
+    values (#{id,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{region,jdbcType=VARCHAR}, #{officephone,jdbcType=VARCHAR}, #{veteranphone,jdbcType=VARCHAR}, 
+      #{linkman,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{situation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    insert into civil_affairs_bureau_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="officephone != null">
+        officephone,
+      </if>
+      <if test="veteranphone != null">
+        veteranphone,
+      </if>
+      <if test="linkman != null">
+        linkman,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="situation != null">
+        situation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="officephone != null">
+        #{officephone,jdbcType=VARCHAR},
+      </if>
+      <if test="veteranphone != null">
+        #{veteranphone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="situation != null">
+        #{situation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    update civil_affairs_bureau_information
+    <set>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="officephone != null">
+        officephone = #{officephone,jdbcType=VARCHAR},
+      </if>
+      <if test="veteranphone != null">
+        veteranphone = #{veteranphone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        linkman = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="situation != null">
+        situation = #{situation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbg.BACKSTAGE.model.CivilAffairsBureauInformation">
+    update civil_affairs_bureau_information
+    set province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      officephone = #{officephone,jdbcType=VARCHAR},
+      veteranphone = #{veteranphone,jdbcType=VARCHAR},
+      linkman = #{linkman,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      situation = #{situation,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

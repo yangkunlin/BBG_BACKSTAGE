@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbg.BACKSTAGE.mapper.UserInformationMapper">
+  <resultMap id="BaseResultMap" type="com.bbg.BACKSTAGE.model.UserInformation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="phonenumber" jdbcType="CHAR" property="phonenumber" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="brithday" jdbcType="DATE" property="brithday" />
+    <result column="joinday" jdbcType="DATE" property="joinday" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="workstage" jdbcType="CHAR" property="workstage" />
+    <result column="authority" jdbcType="INTEGER" property="authority" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, realname, phonenumber, sex, brithday, joinday, department, 
+    position, workstage, authority
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!-- 查询所有信息记录 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_information
+  </select>
+
+  <!-- 根据用户名查询信息记录 -->
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from user_information
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 获取记录总数 -->
+  <select id="getTotal" resultType="int">
+    SELECT count(1) FROM user_information WHERE 1 = 1
+  </select>
+
+  <!-- 分页查询所有信息记录 -->
+  <select id="getUserListPage" resultType="com.bbg.BACKSTAGE.model.UserInformation">
+    select
+    <include refid="Base_Column_List" />
+    from user_information
+    LIMIT #{offset},#{limit}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bbg.BACKSTAGE.model.UserInformation">
+    insert into user_information (id, username, password, 
+      realname, phonenumber, sex, 
+      brithday, joinday, department, 
+      position, workstage, authority
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{phonenumber,jdbcType=CHAR}, #{sex,jdbcType=CHAR}, 
+      #{brithday,jdbcType=DATE}, #{joinday,jdbcType=DATE}, #{department,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{workstage,jdbcType=CHAR}, #{authority,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbg.BACKSTAGE.model.UserInformation">
+    insert into user_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="phonenumber != null">
+        phonenumber,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="brithday != null">
+        brithday,
+      </if>
+      <if test="joinday != null">
+        joinday,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="workstage != null">
+        workstage,
+      </if>
+      <if test="authority != null">
+        authority,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null">
+        #{phonenumber,jdbcType=CHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="brithday != null">
+        #{brithday,jdbcType=DATE},
+      </if>
+      <if test="joinday != null">
+        #{joinday,jdbcType=DATE},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="workstage != null">
+        #{workstage,jdbcType=CHAR},
+      </if>
+      <if test="authority != null">
+        #{authority,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbg.BACKSTAGE.model.UserInformation">
+    update user_information
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null">
+        phonenumber = #{phonenumber,jdbcType=CHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="brithday != null">
+        brithday = #{brithday,jdbcType=DATE},
+      </if>
+      <if test="joinday != null">
+        joinday = #{joinday,jdbcType=DATE},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="workstage != null">
+        workstage = #{workstage,jdbcType=CHAR},
+      </if>
+      <if test="authority != null">
+        authority = #{authority,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbg.BACKSTAGE.model.UserInformation">
+    update user_information
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      phonenumber = #{phonenumber,jdbcType=CHAR},
+      sex = #{sex,jdbcType=CHAR},
+      brithday = #{brithday,jdbcType=DATE},
+      joinday = #{joinday,jdbcType=DATE},
+      department = #{department,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      workstage = #{workstage,jdbcType=CHAR},
+      authority = #{authority,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

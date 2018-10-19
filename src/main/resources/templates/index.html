@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-clearmin.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/roboto.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/material-design.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/small-n-flat.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <title>Clearmin template</title>
+</head>
+<body class="cm-no-transition cm-1-navbar">
+<div id="cm-menu">
+    <nav class="cm-navbar cm-navbar-primary">
+        <div class="cm-flex">
+            <div class="cm-logo"></div>
+        </div>
+        <div class="btn btn-primary md-menu-white" data-toggle="cm-menu"></div>
+    </nav>
+    <div id="cm-menu-content">
+        <div id="cm-menu-items-wrapper">
+            <div id="cm-menu-scroller">
+                <ul class="cm-menu-items">
+                    <li class="active"><a href="/go2index" class="sf-house">首页</a></li>
+                    <li><a href="/go2userinformation" class="sf-dashboard">用户信息管理</a></li>
+                    <li><a href="/go2companyinformation" class="sf-notepad">招聘企业信息管理</a></li>
+                    <li><a href="/go2civilaffairsbureau" class="sf-cat">民政局信息管理</a></li>
+                    <li><a href="/go2compactinformation" class="sf-lock-open">合同台账信息管理</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<header id="cm-header">
+    <nav class="cm-navbar cm-navbar-primary">
+        <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
+        <div class="cm-flex">
+            <h1>兵果果业务系统</h1>
+            <form id="cm-search" action="http://www.baidu.com/baidu" method="get" target="_blank">
+                <input name=tn type=hidden value=baidu>
+                <input type="search" name="word" autocomplete="off" placeholder="搜索">
+            </form>
+        </div>
+        <div class="pull-right">
+            <div id="cm-search-btn" class="btn btn-primary md-search-white" data-toggle="cm-search"></div>
+        </div>
+        <div class="dropdown pull-right">
+            <button class="btn btn-primary md-notifications-white" data-toggle="dropdown"><span
+                    class="label label-danger">23</span></button>
+            <div class="popover cm-popover bottom">
+                <div class="arrow"></div>
+                <div class="popover-content">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading text-overflow">
+                                <i class="fa fa-fw fa-envelope"></i> Nunc volutpat aliquet magna.
+                            </h4>
+                            <p class="list-group-item-text text-overflow">Pellentesque tincidunt mollis scelerisque.
+                                Praesent vel blandit quam.</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                <i class="fa fa-fw fa-envelope"></i> Aliquam orci lectus
+                            </h4>
+                            <p class="list-group-item-text">Donec quis arcu non risus sagittis</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                <i class="fa fa-fw fa-warning"></i> Holy guacamole !
+                            </h4>
+                            <p class="list-group-item-text">Best check yo self, you're not looking too good.</p>
+                        </a>
+                    </div>
+                    <div style="padding:10px"><a class="btn btn-success btn-block" href="#">Show me more...</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown pull-right">
+            <button class="btn btn-primary md-account-circle-white" data-toggle="dropdown"></button>
+            <ul class="dropdown-menu">
+                <li class="disabled text-center">
+                    <a style="cursor:default;" id="a-realname"><strong>yangkunlin</strong></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#" id="userinformation"><i class="fa fa-fw fa-user"></i>个人信息</a>
+                </li>
+                <li>
+                    <a href="#" id="changepassword"><i class="fa fa-fw fa-cog"></i>修改密码</a>
+                </li>
+                <li>
+                    <a href="/logout" id="logout"><i class="fa fa-fw fa-sign-out"></i>退出登陆</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div id="global">
+    <div class="container-fluid cm-container-white">
+        <h2 style="margin-top:0;">欢迎使用缤缤果业务系统!</h2>
+        <p>缤缤果公司，由拥有多年互联网从业经验的退役军人组成的精锐团队创办，依托互联网大数据及社会形势需求，全力打造属于退役军人的安居乐业信息平台--兵果果招聘，旨在以退役军人就业创业需求为中心，通过互联网和大数据技术，以实现退役军人精准就业和精准创业为目标的一款微信小程序。</p>
+    </div>
+
+    <!-- 用户信息的模态对话框 -->
+    <div id="editUserInformationModal" class="modal fade" role="dialog" aria-hidden=true>
+        <div class="modal-dialog modal-lg">
+            <form id='editForm' class="bs-example bs-example-form" role="form" action="/edituser"
+                  method="post" th:object="${userInformation}">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">
+                            <i class="icon-pencil"></i>
+                            <span id="em-title" style="font-weight:bold">个人信息</span>
+                        </h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center;">
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">1-动态编号</i></span>
+                            <input type="text" class=" form-control" name="id"
+                                   id="em-id" placeholder="动态编号" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-th"></i>2-登陆账号</span>
+                            <input type="text" class="form-control" placeholder="用户名" name="username"
+                                   id="em-username" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-th"></i>3-真实姓名</span>
+                            <input type="text" class="form-control" placeholder="姓名" name="realname"
+                                   id="em-realname" readonly>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">4-联系方式</i></span>
+                            <input type="text" class=" form-control" name="phonenumber"
+                                   id="em-phonenumber" placeholder="联系方式">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">5-出生年月</i></span>
+                            <input type="date" class=" form-control" name="brithday"
+                                   id="em-brithday" placeholder="出生年月" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">6-性别分类</i></span>
+                            <input type="text" class=" form-control" name="sex" id="em-sex"
+                                   placeholder="性别" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">7-入职时间</i></span>
+                            <input type="date" class=" form-control" name="joinday" id="em-joinday"
+                                   placeholder="入职时间" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">8-所属部门</i></span>
+                            <input type="text" class=" form-control" name="department" id="em-department"
+                                   placeholder="部门" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">9-职位安排</i></span>
+                            <input type="text" class=" form-control" name="position" id="em-position"
+                                   placeholder="职位" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon text-center"><i class="icon-th">10工作状态</i></span>
+                            <select class="form-control" id="em-workstage" name="workstage">
+                                <option>在位</option>
+                                <option>休假</option>
+                                <option>离职</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-info">
+                        <input type="hidden" id="EMID" name="EMID"/>
+                        <input type="hidden" id="em-password" name="password"/>
+                        <input type="hidden" id="em-authority" name="authority"/>
+                        <button type="submit" class="btn btn-primary" id="editModalSubmit">确定</button>
+                        <button type="button" class="btn green" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 修改密码的模态对话框 -->
+    <div id="changePasswordModal" class="modal fade" role="dialog" aria-hidden=true>
+        <div class="modal-dialog modal-lg">
+            <form id='changePasswordForm' class="bs-example bs-example-form" role="form" action="#"
+                  method="post" th:object="${userInformation}">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">
+                            <i class="icon-pencil"></i>
+                            <span id="cpm-title" style="font-weight:bold">修改密码</span>
+                        </h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center;">
+                        <div class="form-group"><!--div.row-->
+                            <div class="col-sm-2"><label for="password" class="control-label">请输入新密码：</label></div>
+                            <div class="col-sm-5"><input type="password" class="form-control" id="password"
+                                                         name="password"></div>
+                            <div class="col-sm-4"><span class="help-block">请输入新密码</span></div>
+                        </div>
+                        <div class="form-group"><!--div.row-->
+                            <div class="col-sm-2"><label for="repassword" class="control-label">请确认新密码：</label></div>
+                            <div class="col-sm-5"><input type="password" class="form-control" id="repassword"
+                                                         name="repassword"></div>
+                            <div class="col-sm-4"><span class="help-block">请再次输入新密码和上面保持一致</span></div>
+                        </div>
+                        <div class="form-group"><!--div.row-->
+                            <div class="col-sm-4"><span class="help-block" id="tishi"></span></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-info">
+                        <button type="button" class="btn btn-primary" id="changePasswordModalSubmit">确定</button>
+                        <button type="button" class="btn green" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="cm-footer"><span class="pull-left">如有疑问请联系 杨昆霖</span><span
+            class="pull-right">&copy; 缤缤果信息科技有限公司</span>
+    </footer>
+</div>
+<script src="assets/js/lib/jquery-2.1.3.min.js"></script>
+<script src="assets/js/jquery.mousewheel.min.js"></script>
+<script src="assets/js/jquery.cookie.min.js"></script>
+<script src="assets/js/fastclick.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/clearmin.min.js"></script>
+<script src="assets/js/demo/home.js"></script>
+<!--bootstrap table-->
+<script src="bootstrap-table/bootstrap-table.js"></script>
+<script src="bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="bootstrap-table/bootstrap-editable.js"></script>
+<script src="bootstrap-table/bootstrap-table-editable.js"></script>
+<script src="bootstrap-table/bootstrap-table-export.js"></script>
+<script src="bootstrap-table/tableexport.js"></script>
+<!--bootstrap datetimepicker-->
+<script src="bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+<script src="bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+    $(function () {
+         $.ajax({
+              type: "POST",
+              async : false,
+              url: "/getuserinformation",
+              data:  {},
+              datatype:"json",
+              success: function (data) {
+                 var dataObj=eval("("+data+")");
+                 if(dataObj['userLogin']) {
+                    var x=document.getElementById("a-realname");
+                    x.innerHTML=dataObj['realname'] + "--" + dataObj['position'];
+                    $('#em-id').val(dataObj['id']);
+                    $('#em-username').val(dataObj['username']);
+                    $('#em-realname').val(dataObj['realname']);
+                    $('#em-department').val(dataObj['department']);
+                    $('#em-position').val(dataObj['position']);
+                    $('#em-joinday').val(dataObj['joinday']);
+                    $('#em-workstage').val(dataObj['workstage']);
+                    $('#em-phonenumber').val(dataObj['phonenumber']);
+                    $('#em-sex').val(dataObj['sex']);
+                    $('#em-brithday').val(dataObj['brithday']);
+                    $('#em-password').val(dataObj['password']);
+                    $('#em-authority').val(dataObj['authority']);
+                 }
+                 else {
+                    alert("请重新登陆！");
+                 }
+              }
+        });
+    })
+
+    $('#userinformation').click(function(){
+        $('#editUserInformationModal').modal('show');
+    })
+
+    $('#changepassword').click(function(){
+        $('#changePasswordModal').modal('show');
+    })
+
+   $('#changePasswordModalSubmit').click(function() {
+      var pwd1 = document.getElementById("password").value;
+      var pwd2 = document.getElementById("repassword").value;
+      if(pwd1 == pwd2 &&  pwd1 != "") {
+            $.ajax({
+              type: "POST",
+              async : false,
+              url: "/changepassword",
+              data:  {"password" : pwd1},
+              datatype:"json",
+              success: function (data) {
+                 var dataObj=eval("("+data+")");
+                 if(dataObj['changepassword']) {
+                    document.getElementById("tishi").innerHTML="<font color='green'>修改成功，请点击右侧关闭按钮--></font>";
+                 }
+                 else {
+                    document.getElementById("tishi").innerHTML="<font color='red'>修改失败，请重新修改！</font>";
+                 }
+              }
+            });
+      }
+      else {
+        document.getElementById("tishi").innerHTML="<font color='red'>两次密码不相同,请重新输入！</font>";
+      }
+  })
+
+
+</script>
+</body>
+</html>
